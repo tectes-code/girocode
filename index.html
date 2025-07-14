@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+      <title>Girocode Generator – Create SEPA QR Code Online</title>
+      
+      <!-- Favicon -->
+      <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png" />
+      <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
+      <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
+      <meta name="apple-mobile-web-app-title" content="Girocode Generator" />
+      <link rel="manifest" href="/favicon/site.webmanifest" />
+      
+      <!-- SEO Meta -->
+      <meta name="description" content="Generate a SEPA Girocode (QR code) with IBAN, BIC, amount, recipient name, and payment reference. Free and easy to use." />
+      <meta name="keywords" content="Girocode, SEPA QR code, QR code generator, IBAN, BIC, payment QR code, SEPA transfer, invoice QR code, donation QR code" />
+      <meta property="og:title" content="Girocode Generator – Create SEPA QR Code Online" />
+      <meta property="og:description" content="Create a SEPA-compliant QR code for payments with recipient, IBAN, amount, and purpose. Ideal for invoices, donations or tickets." />
+      <meta property="og:type" content="website" />
+      <meta property="og:url" content="https://tectes-code.github.io/girocode/" />
+      <link rel="stylesheet" href="style.css" />
+   </head>
+   <body>
+      <h1>Girocode (SEPA QR Code) Generator</h1>
+      <p>This tool lets you create a <strong>SEPA-compliant QR code</strong> (Girocode) – ideal for invoices, donations or concert tickets.</p>
+      <p>You can scan a QR Code like this with you banking app.</p>
+      <div class="intro-image">
+         <img src="girocode.png" alt="Example of a Girocode (SEPA QR code)" />
+      </div>
+      
+      <!-- Table of Contents -->
+      <nav id="toc">
+         <ul>
+            <li><a href="#try-it-out">Try it out</a></li>
+            <li><a href="#explanation">Explanation / Specification</a></li>
+            <li><a href="#datafields">- Datafields</a></li>
+            <li><a href="#exampledata">- Example data</a></li>
+         </ul>
+      </nav>
+      
+      <!-- Try it out section -->
+      <h2 id="try-it-out">Try it out</h2>
+      <form id="girocodeForm">
+         <label>IBAN:
+         <input type="text" id="iban" value="DE98100101787836993618" required />
+         </label>
+         <br/>
+         <label>BIC:
+         <input type="text" id="bic" value="REVODEB2" />
+         </label>
+         <br/>
+         <label>Recipient name:
+         <input type="text" id="name" value="Test" required />
+         </label>
+         <br/>
+         <label>Amount (€):
+         <input type="number" id="amount" step="0.01" value="123.45" required />
+         </label>
+         <br/>
+         <label>Payment reference:
+         <input type="text" id="purpose" value="concert tickets" required />
+         </label>
+         <br/>
+         <div class="button-wrapper">
+            <button type="submit">Generate QR Code</button>
+         </div>
+      </form>
+      <div id="qrcode"></div>
+      
+      <!-- Explanation section -->
+      <h2 id="explanation">Explanation / Specification</h2>
+      <p>The generated QR code uses the European Payments Council (EPC) standard for SEPA Credit Transfer. It's called a <strong>Girocode</strong>, and contains all necessary data for initiating a bank transfer, such as:</p>
+      <ul>
+         <li><strong>IBAN</strong> – Recipient's bank account number</li>
+         <li><strong>BIC</strong> – Bank Identifier Code (optional in SEPA zone)</li>
+         <li><strong>Amount</strong> – In Euro, with 2 decimal places</li>
+         <li><strong>Recipient name</strong> – Max 70 characters</li>
+         <li><strong>Purpose</strong> – What the payment is for (free text)</li>
+      </ul>
+      <p>The data is encoded in a simple row-based text-format. It contains up to 12 datafields. Datafields are separated by a linefeed character (LF). That is NOT a termination character, so the last field must not end with a linefeed.</p>
+      
+      <!-- Datafields section -->
+      <h3 id="datafields">Datafields</h3>
+      <p>The following datafields are supported:</p>
+      <div class="table-container">
+         <table>
+            <thead>
+               <tr>
+                  <th>Row / Datafield</th>
+                  <th>Mandatory</th>
+                  <th>Example</th>
+                  <th>Description</th>
+               </tr>
+            </thead>
+            <tbody>
+               <tr>
+                  <td>1 / Service Tag</td>
+                  <td>[x]</td>
+                  <td>BCD</td>
+                  <td>fixed value</td>
+               </tr>
+               <tr>
+                  <td>2 / Version</td>
+                  <td>[x]</td>
+                  <td>001</td>
+                  <td>Region Involved in Payment Transactions<br/>Values:<br/>001 = EEA with non-EEA countries<br/>002 = EEA only</td>
+               </tr>
+               <tr>
+                  <td>3 / Encoding</td>
+                  <td>[x]</td>
+                  <td>1</td>
+                  <td>Values:<br/>1 = UTF-8<br/>2 = ISO 8859-1<br/>3 = ISO 8859-2<br/>4 = ISO 8859-4<br/>5 = ISO 8859-5<br/>6 = ISO 8859-7<br/>7 = ISO 8859-10<br/>8 = ISO 8859-15</td>
+               </tr>
+               <tr>
+                  <td>4 / Identification</td>
+                  <td>[x]</td>
+                  <td>SCT</td>
+                  <td>Values:<br/>SCT = SEPA Credit Transfer<br/>INST = SEPA Instant Credit Transfer</td>
+               </tr>
+               <tr>
+                  <td>5 / BIC</td>
+                  <td>varies</td>
+                  <td>REVODEB2</td>
+                  <td>BIC = Business Identifier Code (of the bank)<br>It is mandatory, when Version equals 001</td>
+               </tr>
+               <tr>
+                  <td>6 / Recipient Name</td>
+                  <td>[x]</td>
+                  <td>Test-Name</td>
+                  <td>Name of the recipient (max. 70 characters)</td>
+               </tr>
+               <tr>
+                  <td>7 / IBAN</td>
+                  <td>[x]</td>
+                  <td>DE98100101787836993618</td>
+                  <td>IBAN of the recipient</td>
+               </tr>
+               <tr>
+                  <td>8 / Amount</td>
+                  <td>[]</td>
+                  <td>EUR123.45</td>
+                  <td>payment amount<br>Format = EUR#.##</td>
+               </tr>
+               <tr>
+                  <td>9 / Purpose (code)</td>
+                  <td>[]</td>
+                  <td>DEPT</td>
+                  <td><a href="https://wiki.windata.de/index.php?title=Purpose-SEPA-Codes" target="_blank" >SEPA Purpose-Code</a></td>
+               </tr>
+               <tr>
+                  <td>10 / Creditor Reference</td>
+                  <td>[]</td>
+                  <td>RF18 5390 0754 7034</td>
+                  <td><a href="https://en.wikipedia.org/wiki/Creditor_Reference" target="_blank" >Structured Creditor Reference</a><br><br><strong>Cannot be used in combination with 11 / Remittance</strong></td>
+               </tr>
+               <tr>
+                  <td>11 / Purpose (text)</td>
+                  <td>[]</td>
+                  <td>Invoice 2023-00123</td>
+                  <td>unstructured free text for payment purpose (max. 140 characters)<br/><br/><strong>Cannot be used in combination with 10 / Creditor Reference</strong></td>
+               </tr>
+               <tr>
+                  <td>12 / Information</td>
+                  <td>[]</td>
+                  <td>concert tickets</td>
+                  <td>unstructured free text for internal note of the payer (max. max. 70 characters)</td>
+               </tr>
+            </tbody>
+         </table>
+      </div>
+
+      <!-- Example data section -->
+      <h3 id="exampledata">Example data</h3>
+      <div class="code-container">
+         <div class="line-numbers">
+            1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12
+         </div>
+         <div class="code">BCD<br/>001<br/>1<br/>SCT<br/>REVODEB2<br/>Test-Name<br/>DE98100101787836993618<br/>EUR123.45<br/><br/><br/>Invoice 2023-00123<br/>concert tickets</div>
+      </div>
+
+      <!-- footer -->
+      <footer id="footer">
+         <p>
+            Was this helpful? Consider 
+            <a href="https://coff.ee/tectes" target="_blank" rel="noopener noreferrer">
+            buying me a coffee ☕
+            </a>
+            | Find out more on 
+            <a href="https://github.com/tectes-code/girocode/" target="_blank" rel="noopener noreferrer">
+            GitHub
+            </a>
+         </p>
+      </footer>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+      <script src="girocode.js"></script>
+   </body>
+</html>

@@ -1,0 +1,157 @@
+body {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  background: #f5f5f5;
+  background-color: #f5f5f5;
+  max-width: 600px;
+  margin: auto;
+}
+
+form label {
+  display: block;
+  margin: 4px 0;
+}
+
+input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 4px;
+  box-sizing: border-box;
+}
+
+button {
+  padding: 10px 15px;
+  font-size: 16px;
+}
+
+#qrcode {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #ffffff;
+  border-top: 1px solid #ccc;
+  text-align: center;
+  padding: 10px 0;
+  font-size: 14px;
+  z-index: 100;
+}
+
+footer a {
+  color: #ff813f;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
+#toc {
+  background: #e9f5ff;
+  padding: 15px;
+  border-left: 4px solid #007acc;
+  margin: 20px 0;
+}
+
+#toc h2 {
+  margin-top: 0;
+}
+
+#toc ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+#toc li {
+  margin: 5px 0;
+}
+
+#toc a {
+  color: #007acc;
+  text-decoration: none;
+}
+
+#toc a:hover {
+  text-decoration: underline;
+}
+
+.button-wrapper {
+  text-align: center;
+}
+
+.intro-image {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.intro-image img {
+  max-width: 100%;
+  height: auto;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  min-width: 600px;
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: center;
+}
+
+th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+@media (max-width: 600px) {
+  th, td {
+    padding: 10px;
+    font-size: 14px;
+  }
+}
+
+.code-container {
+  display: flex;
+  background: #1e1e1e;
+  color: #dcdcdc;
+  border-radius: 5px;
+  overflow: auto;
+  font-family: monospace;
+  padding: 20px;
+}
+
+.line-numbers {
+  padding: 10px;
+  background: #2d2d2d;
+  text-align: right;
+  user-select: none;
+  color: #888;
+  border-right: 1px solid #444;
+}
+
+.code {
+  padding: 10px;
+  white-space: pre;
+  overflow-x: auto;
+}
